@@ -41,15 +41,12 @@ class EquipmentManagementSystem:
 
     # изменить с учетом на площадь производственного помещения, чтобы в нем помещалось оборудование
     def add_equipment_contract(self, production_code, equipment_type_code, quantity):
-        # Получаем название производственного помещения
         self.cursor.execute("SELECT description FROM ProductionRoom WHERE code=?", (production_code,))
         production_description = self.cursor.fetchone()[0]
 
-        # Получаем название типа технологического оборудования
         self.cursor.execute("SELECT description FROM EquipmentType WHERE code=?", (equipment_type_code,))
         equipment_description = self.cursor.fetchone()[0]
 
-        # Добавляем запись о контракте
         self.cursor.execute(
             "INSERT INTO EquipmentContract (number, production, equipment_type, quantity, production_code, equipment_type_code) VALUES (NULL, ?, ?, ?, ?, ?)",
             (production_description, equipment_description, quantity, production_code, equipment_type_code))
